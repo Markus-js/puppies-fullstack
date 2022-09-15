@@ -51,14 +51,14 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
 app.post('/api/puppies', async (req: Request, res: Response) => {
   const puppy = new Puppy(req.body);
   await puppy.save();
-  res.status(201)
+  res.status(201).json(puppy)
 });
 
 app.put('/api/puppies/:id', async (req: Request, res: Response) => {
-  console.log(req.body);
   const puppy = await Puppy.findByIdAndUpdate(req.params.id, req.body);
   await puppy!.save();
-  res.status(201)
+  // req.body._id  = req.params.id,
+  res.status(201).json(req.body);
 });
 
 app.delete('/api/puppies/:id', async (req: Request, res: Response) => {

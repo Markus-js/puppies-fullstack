@@ -69,13 +69,12 @@ app.get('/api/puppies/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
 app.post('/api/puppies', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const puppy = new Puppy(req.body);
     yield puppy.save();
-    res.status(201);
+    res.status(201).json(puppy);
 }));
 app.put('/api/puppies/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const puppy = yield Puppy.findByIdAndUpdate(req.params.id, req.body);
     yield puppy.save();
-    res.status(201);
+    res.status(201).json(req.body);
 }));
 app.delete('/api/puppies/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const puppy = yield Puppy.findByIdAndDelete(req.params.id);

@@ -21,8 +21,8 @@ const Card: React.FC<Props> = ({ id, name, breed, birthDate }) => {
     return (
         <Link to={`/${id}`}>
             <div className="card">
-                <h1>{name}</h1>
-                <h2>{breed}</h2>
+                <h2>{name}</h2>
+                <h4>{breed}</h4>
                 <p>{birthDate}</p>
             </div>
         </Link>

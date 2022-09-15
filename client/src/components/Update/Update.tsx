@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
-import './Update.scss'
+import styles from './Update.module.scss'
 import { useParams } from 'react-router-dom';
-
-
-export const Update = () => {
+import { PuppyInfo } from '../../interface'
+interface Props {
+  // puppy: PuppyInfo,
+  setPuppy: (init: PuppyInfo) => void
+}
+export const Update: React.FC<Props> = ({ setPuppy }) => {
   const { id } = useParams();
   const [breed, setBreed] = useState<string>('');
   const [dogBreeds, setDogBreeds] = useState<string[]>([])
@@ -29,6 +32,10 @@ export const Update = () => {
       },
       body: JSON.stringify(puppy)
     })
+      .then(res => res.json())
+      .then(data => {
+        setPuppy(data)
+      }).catch(err => console.log(err))
   }
 
   useEffect(() => {
@@ -72,8 +79,8 @@ export const Update = () => {
 
 
   return (
-    <section className="form-container">
-      <form className="form" onSubmit={handleUpdate} >
+    <section className={styles.form_container}>
+      <form className={styles.form} onSubmit={handleUpdate} >
         <label htmlFor="name">Name</label>
         <input ref={nameRef} type="text" name="name" id="name" required />
         <label htmlFor="breed">Breed</label>

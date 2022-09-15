@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './page/Home/Home'
-import Puppy from './page/Puppy';
-import './global.scss'
+import Puppy from './page/Puppy/Puppy';
+import './styles/global.scss'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 

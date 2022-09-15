@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { PuppyInfo } from '../interface'
-import Update from '../components/Update/Update';
+import { PuppyInfo } from '../../interface'
+import Update from '../../components/Update/Update';
+import Modal from '../../components/Modal/Modal';
+import './Puppy.scss';
 
 export default function OnePuppy() {
-
+  const [show, setShow] = useState<boolean>(false);
   const [puppy, setPuppy] = useState<PuppyInfo | null>(null);
   const [imgUrl, setImgUrl] = useState<string>('')
 
   const { id } = useParams();
 
   useEffect(() => {
+    console.log("run init")
     fetch(`http://localhost:8080/api/puppies/${id}`)
       .then(res => res.json())
       .then(data => setPuppy(data))
@@ -30,24 +33,26 @@ export default function OnePuppy() {
     fetch(url).then(res => res.json()).then(data => setImgUrl(data.message[0]))
   }, [puppy])
 
-  const handleDelete = () => {
-    fetch(`http://localhost:8080/api/puppies/${id}`, {
-      method: 'DELETE'
-    }).then(res => res.json()).then(data => console.log(data)).catch(err => console.log(err))
+  const handleModal = () => {
+    setShow(true)
   }
+
 
 
   return puppy ? (
     <>
-      <Update />
-      <div>
-        <h1>{puppy?.name}</h1>
-        <h2>{puppy?.breed}</h2>
-        <p>Age</p>
+      {show && <Modal setShow={setShow} show={show} type="delete" />}
+      <Update setPuppy={setPuppy} />
+      <section className="puppy-container">
         <img src={imgUrl} alt="puppy" />
-        <p>{puppy?.birthDate}</p>
-        <button onClick={handleDelete} >Delete</button>
-      </div>
+        <div>
+          <h2>{puppy?.name}</h2>
+          <h4>{puppy?.breed}</h4>
+          <p>{puppy?.birthDate}</p>
+          <button onClick={handleModal} >Delete</button>
+        </div>
+
+      </section>
     </>
   ) : <p>No puppy found</p>
 }

@@ -5,7 +5,7 @@ import { PuppyInfo } from '../../interface'
 import "./Home.scss";
 
 export default function Home() {
-
+    //const [toggle, setToggle] = useState<boolean>(false)
     // const somePuppies:PuppyInfo[] = [
     //     { name: "Buddy", breed: "Golden Retriever", birthDate:"13-06-2010" },
     //     { name: "Scooby", breed: "Great Dane", birthDate:"13-06-2018" },
@@ -17,14 +17,17 @@ export default function Home() {
     useEffect(() => {
         fetch('http://localhost:8080/api/puppies')
             .then(res => res.json())
-            .then(data => setPuppies(data))
+            .then(data => {
+                setPuppies(data)
+
+            })
             .catch(err => console.log(err))
     }, [])
 
     return (
         <div>
             <h1>Home</h1>
-            <Create />
+            <Create puppies={puppies} setPuppies={setPuppies} />
             <section className="grid-container">
                 {puppies.map((puppy, index) => (
                     <Card key={index} id={puppy._id} name={puppy.name} breed={puppy.breed} birthDate={puppy.birthDate} />

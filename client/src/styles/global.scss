@@ -1,0 +1,32 @@
+@import './colors.scss';
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: $orange-light;
+}
+
+a {
+  all: unset;
+}
+
+
+button {
+  all: unset;
+  cursor: pointer;
+  background: $purple-dark;
+  padding: 10px 15px;
+  border-radius: 7px;
+  &:hover {
+    background: $purple-light;
+  }
+}
+
+label {
+  text-align: left;
+}
+
+input, select {
+  min-width: 300px;
+  padding: 0.5rem
+}

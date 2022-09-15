@@ -1,8 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
-import './Create.scss'
 
+import { PuppyInfo } from '../../interface'
+import styles from './Create.module.scss'
+interface Props {
+  puppies: PuppyInfo[]
+  setPuppies: (init: PuppyInfo[]) => void
+}
 
-export const Create = () => {
+export const Create: React.FC<Props> = ({ puppies, setPuppies }) => {
   const [breed, setBreed] = useState<string>('');
   const [dogBreeds, setDogBreeds] = useState<string[]>([])
   // const [dogBreeds, setDogBreeds] = useState<{ text: string, value: string }[]>([])
@@ -13,7 +18,6 @@ export const Create = () => {
 
   const handleCreate = (e: React.SyntheticEvent) => {
     e.preventDefault();
-
     const puppy = {
       name: nameRef.current?.value,
       breed: breed,
@@ -27,6 +31,11 @@ export const Create = () => {
       },
       body: JSON.stringify(puppy)
     })
+      .then(res => res.json())
+      .then(data => {
+        setPuppies([...puppies, data])
+      }).catch(err => console.log(err))
+
   }
 
   useEffect(() => {
@@ -51,8 +60,8 @@ export const Create = () => {
 
 
   return (
-    <section className="form-container">
-      <form className="form" onSubmit={handleCreate} >
+    <section className={styles.form_container}>
+      <form className={styles.form} onSubmit={handleCreate} >
         <label htmlFor="name">Name</label>
         <input ref={nameRef} type="text" name="name" id="name" required />
         <label htmlFor="breed">Breed</label>
