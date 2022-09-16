@@ -6,6 +6,7 @@
 }
 
 .form {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,8 +16,27 @@
   width: 100%;
   padding: 1rem;
   border-radius: 4px;
+  padding-top: 3rem;
   button {
     margin-top: 1rem;
     max-width: 50px;
   }
+  &__status {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-content: center ;
+    justify-content: center
+    
+  }
+  .success {
+    color: $green;
+  }
+  .error {
+    color: $red;
+  }
 }
+
+

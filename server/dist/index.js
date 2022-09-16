@@ -58,6 +58,9 @@ const puppySchema = new mongoose.Schema({
     birthDate: { type: String, required: true }
 });
 const Puppy = mongoose.model('puppies', puppySchema);
+app.get('/api/beers', (0, cors_1.default)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send("🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺SKÅL!!🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺");
+}));
 app.get('/api/puppies', (0, cors_1.default)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const puppies = yield Puppy.find();
     res.send(puppies);
@@ -68,8 +71,14 @@ app.get('/api/puppies/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
 }));
 app.post('/api/puppies', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const puppy = new Puppy(req.body);
-    yield puppy.save();
-    res.status(201).json(puppy);
+    try {
+        yield puppy.save();
+        res.status(201).json(puppy);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
 }));
 app.put('/api/puppies/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const puppy = yield Puppy.findByIdAndUpdate(req.params.id, req.body);

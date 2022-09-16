@@ -38,6 +38,10 @@ const puppySchema = new mongoose.Schema<PuppyInfo>({
 
 const Puppy = mongoose.model('puppies', puppySchema);
 
+app.get('/api/beers', cors(), async (req: Request, res: Response) => {
+
+  res.send("SKÅL!!🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺🍺");
+});
 app.get('/api/puppies', cors(), async (req: Request, res: Response) => {
   const puppies = await Puppy.find();
   res.send(puppies);
@@ -50,9 +54,16 @@ app.get('/api/puppies/:id', async (req: Request, res: Response) => {
 
 app.post('/api/puppies', async (req: Request, res: Response) => {
   const puppy = new Puppy(req.body);
-  await puppy.save();
-  res.status(201).json(puppy)
+  try {
+    await puppy.save();
+    res.status(201).json(puppy)
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error)
+  }
 });
+
 
 app.put('/api/puppies/:id', async (req: Request, res: Response) => {
   const puppy = await Puppy.findByIdAndUpdate(req.params.id, req.body);

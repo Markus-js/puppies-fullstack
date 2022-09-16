@@ -2,12 +2,17 @@ import React, { useState, useRef, useEffect } from 'react'
 import styles from './Update.module.scss'
 import { useParams } from 'react-router-dom';
 import { PuppyInfo } from '../../interface'
+import { BarLoader } from 'react-spinners';
 interface Props {
   // puppy: PuppyInfo,
   setPuppy: (init: PuppyInfo) => void
 }
 export const Update: React.FC<Props> = ({ setPuppy }) => {
   const { id } = useParams();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+
   const [breed, setBreed] = useState<string>('');
   const [dogBreeds, setDogBreeds] = useState<string[]>([])
   // const [dogBreeds, setDogBreeds] = useState<{ text: string, value: string }[]>([])
@@ -16,8 +21,20 @@ export const Update: React.FC<Props> = ({ setPuppy }) => {
   const birthDateRef = useRef<HTMLInputElement>(null);
 
 
+  const handleSuccess = (data: PuppyInfo) => {
+    setPuppy(data)
+    setLoading(false);
+    setSuccess(true);
+    setTimeout(() => {
+      setSuccess(false);
+    }, 2000)
+  }
+
   const handleUpdate = (e: React.SyntheticEvent) => {
     e.preventDefault();
+
+    setError(false);
+    setLoading(true);
 
     const puppy = {
       name: nameRef.current?.value,
@@ -34,8 +51,12 @@ export const Update: React.FC<Props> = ({ setPuppy }) => {
     })
       .then(res => res.json())
       .then(data => {
-        setPuppy(data)
-      }).catch(err => console.log(err))
+        handleSuccess(data)
+      }).catch(err => {
+        console.log(err);
+        setError(true);
+        setLoading(false);
+      })
   }
 
   useEffect(() => {
@@ -56,22 +77,6 @@ export const Update: React.FC<Props> = ({ setPuppy }) => {
       })
 
 
-    // fetch("https://dog.ceo/api/breeds/list/all")
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     const list: any = [];
-    //     for (const key in data.message) {
-    //       if (data.message[key].length > 0) {
-    //         data.message[key].forEach((breed: string) => {
-    //           list.push({ text: `${breed} ${key}`, value: `${breed} ${key}` })
-    //         })
-    //       } else {
-    //         list.push({ text: `${key}`, value: `${key}` })
-    //       }
-    //     }
-    //     // console.log(list)
-    //     setDogBreeds(list);
-    //   })
 
 
   }, [])
@@ -80,7 +85,16 @@ export const Update: React.FC<Props> = ({ setPuppy }) => {
 
   return (
     <section className={styles.form_container}>
+
+
+
       <form className={styles.form} onSubmit={handleUpdate} >
+        <div className={styles.form__status}>
+          {loading && <BarLoader color="#1fd19f" />}
+          {success && <h4 className={styles.success}>SUCCESS!</h4>}
+          {error && <h4 className={styles.error}>Something went wrong</h4>}
+
+        </div>
         <label htmlFor="name">Name</label>
         <input ref={nameRef} type="text" name="name" id="name" required />
         <label htmlFor="breed">Breed</label>

@@ -5,7 +5,9 @@ import Update from '../../components/Update/Update';
 import Modal from '../../components/Modal/Modal';
 import './Puppy.scss';
 
-export default function OnePuppy() {
+export default function Puppy() {
+
+
   const [show, setShow] = useState<boolean>(false);
   const [puppy, setPuppy] = useState<PuppyInfo | null>(null);
   const [imgUrl, setImgUrl] = useState<string>('')
@@ -41,6 +43,7 @@ export default function OnePuppy() {
 
   return puppy ? (
     <>
+
       {show && <Modal setShow={setShow} show={show} type="delete" />}
       <Update setPuppy={setPuppy} />
       <section className="puppy-container">
